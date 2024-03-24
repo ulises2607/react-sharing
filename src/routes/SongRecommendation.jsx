@@ -1,57 +1,109 @@
-import React, {useState} from 'react'
-import ReactPlayer from 'react-player'
+import React, { useState, useEffect } from 'react';
+import ReactPlayer from 'react-player';
 
 const SongRecomendation = () => {
-  //for onChange event
-  const [youtubeVideo, setYoutubeVideo] = useState('');
-  // for submit events
-  const [youtubeURL, setYoutubeURL] = useState('https://www.youtube.com/watch?v=jbiw2kKXh1g&ab_channel=InMundos-Topic');
+  const [name, setName] = useState('');
+  const [description, setDescription] = useState('');
+  const [link, setLink] = useState('');
+  const [recommendations, setRecommendations] = useState([]);
 
-  const handleYoutubeChange = (e) => {
-    setYoutubeVideo(e.target.value)
-  }
+  const handleSubmit = async () => {
+    const newRecommendation = { name, description, link };
+    const response = await fetch('/database.json');
+    const data = await response.json();
+    data.recommendations.push(newRecommendation);
+    await fetch('/database.json', {
+      method: 'PUT',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify(data),
+    });
+    setRecommendations([...recommendations, newRecommendation]);
+    setName('');
+    setDescription('');
+    setLink('');
+  };
 
-  const handleYoutubeSubmit=(e)=>{
-    e.preventDefault();
-    setYoutubeURL(youtubeVideo)
-
-  }
+  useEffect(() => {
+    const fetchData = async () => {
+      const response = await fetch('/database.json');
+      const data = await response.json();
+      setRecommendations(data.recommendations);
+    };
+    fetchData();
+  }, []);
 
   return (
     <>
-          <div className="flex">
-          <form className="w-1/2 p-4"
-          onSubmit={handleYoutubeSubmit}>
-            <div className="mb-4">
-              <input type="text" 
-              placeholder="Name" 
+      <div className="flex">
+        <form
+          className="w-1/3 p-4"
+          onSubmit={(e) => {
+            e.preventDefault();
+            handleSubmit();
+          }}
+        >
+          <div className="mb-4">
+            <input
+              type="text"
+              placeholder="Name"
               className="w-full border border-gray-300 rounded-md p-2"
-               />
-            </div>
-            <div className="mb-4">
-              <textarea placeholder="Description" className="w-full border border-gray-300 rounded-md p-2"></textarea>
-            </div>
-            <div className="mb-4">
-              <input type="text" placeholder="Link" required 
+              value={name}
+              onChange={(e) => setName(e.target.value)}
+            />
+          </div>
+          <div className="mb-4">
+            <textarea
+              placeholder="Description"
               className="w-full border border-gray-300 rounded-md p-2"
-              onChange={handleYoutubeChange} />
-            </div>
-            <div>
-              <button type='submit' className="bg-blue-500 text-white px-4 py-2 rounded-md hover:bg-blue-600">Submit</button>
-            </div>
-          </form>
-          <div className="w-1/2 p-4">
-            <div className="bg-gray-200 h-full p-4 rounded-md">
-              <h2 className="text-lg font-semibold mb-2">Recommendation List</h2>
-              <div className="youtube-box">
-                <ReactPlayer url={youtubeURL}
-                controls />
-              </div>
-            </div>
+              value={description}
+              onChange={(e) => setDescription(e.target.value)}
+            ></textarea>
+          </div>
+          <div className="mb-4">
+            <input
+              type="text"
+              placeholder="Link"
+              required
+              className="w-full border border-gray-300 rounded-md p-2"
+              value={link}
+              onChange={(e) => setLink(e.target.value)}
+            />
+          </div>
+          <div>
+            <button
+              type="submit"
+              className="bg-blue-500 text-white px-4 py-2 rounded-md hover:bg-blue-600"
+            >
+              Submit
+            </button>
+          </div>
+        </form>
+        <div className="w-2/3 p-4">
+          <div className="bg-gray-200 h-full p-4 rounded-md">
+            <h2 className="text-lg font-semibold mb-2">Recommendation List</h2>
+            <ul>
+              {recommendations.map((recommendation, index) => (
+                <li key={index}>
+                  <div className="bg-white p-2 mb-2 rounded-md">
+                    <p className="font-semibold">{recommendation.name}</p>
+                    <p>{recommendation.description}</p>
+                    <ReactPlayer
+                      url={recommendation.link}
+                      controls
+                      width={'200px'}
+                      height={'200px'}
+                    />
+                  </div>
+                </li>
+              ))}
+            </ul>
           </div>
         </div>
+      </div>
     </>
-  )
-}
+  );
+};
 
-export default SongRecomendation
+export default SongRecomendation;

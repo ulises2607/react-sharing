@@ -16,6 +16,7 @@ const router = createBrowserRouter([
     path: "/",
     element: <Root />,
     children: [
+      {index: true, element: <Home /> },
       {path: "home", element: <Home />},
       {path: "recommendation", element: <SongRecommendation />},
       {path: "top-track-by-country", element: <TopTracksByCountry />},

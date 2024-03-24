@@ -7,8 +7,18 @@ const SongRecomendation = () => {
   const [link, setLink] = useState('');
   const [recommendations, setRecommendations] = useState([]);
 
+  // Función para generar colores aleatorios
+  const getRandomColor = () => {
+    const letters = '0123456789ABCDEF';
+    let color = '#';
+    for (let i = 0; i < 6; i++) {
+      color += letters[Math.floor(Math.random() * 16)];
+    }
+    return color;
+  };
+
   const handleSubmit = async () => {
-    const newRecommendation = { name, description, link };
+    const newRecommendation = { name, description, link, color: getRandomColor() };
     const response = await fetch('/database.json');
     const data = await response.json();
     data.recommendations.push(newRecommendation);
@@ -81,12 +91,12 @@ const SongRecomendation = () => {
           </div>
         </form>
         <div className="w-2/3 p-4">
-          <div className="bg-gray-200 h-full p-4 rounded-md">
+          <div className="bg-gray-200 h-full p-4 rounded-md overflow-y-scroll">
             <h2 className="text-lg font-semibold mb-2">Recommendation List</h2>
             <ul>
               {recommendations.map((recommendation, index) => (
                 <li key={index}>
-                  <div className="bg-white p-2 mb-2 rounded-md">
+                  <div className="bg-white p-2 mb-2 rounded-md" style={{ backgroundColor: recommendation.color }}>
                     <p className="font-semibold">{recommendation.name}</p>
                     <p>{recommendation.description}</p>
                     <ReactPlayer
@@ -94,6 +104,7 @@ const SongRecomendation = () => {
                       controls
                       width={'200px'}
                       height={'200px'}
+                      className="mb-2"
                     />
                   </div>
                 </li>

@@ -157,4 +157,8 @@ Feel free to check the [issues page](../../issues/).
 
 If you like this project consider adding a ⭐️
 
+## 📝 License <a name="license"></a>
+
+This project is [MIT](./LICENSE) licensed.
+
 <p align="right">(<a href="#readme-top">back to top</a>)</p>

@@ -1,6 +1,6 @@
 import React from 'react';
 import useSWR from 'swr';
-import SongCard from '../components/SongCard'; // Importa el componente SongCard desde la ruta correcta
+import SongCard from '../components/SongCard';
 
 const RandomSongs = () => {
   const fetcher = async (url) => {

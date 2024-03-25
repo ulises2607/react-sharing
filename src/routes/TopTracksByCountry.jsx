@@ -33,7 +33,7 @@ const TopTracksByCountry = () => {
 
   return (
     <>
-      <div className="w-full max-w-screen-xl mx-auto">
+      <div className="w-full max-w-screen-xl mx-auto m-4">
         <form onSubmit={handleSearch} className="flex items-center justify-center mb-4">
           <select
             name="country"

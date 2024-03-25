@@ -6,7 +6,7 @@ const Home = () => {
   return (
     <div className="bg-gray-100 min-h-screen flex flex-col justify-center items-center">
       <div className="container mx-auto py-8">
-        <h1 className="text-3xl font-bold mb-8">Welcome to My Music App</h1>
+        <h1 className="text-3xl font-bold mb-8">Welcome to SoundVoyage</h1>
 
         <section className="mb-8 bg-white shadow-md rounded-lg p-8">
           <h2 className="text-2xl font-semibold mb-4">Recommend Song</h2>

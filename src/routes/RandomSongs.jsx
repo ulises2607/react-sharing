@@ -1,5 +1,6 @@
 import React from 'react';
 import useSWR from 'swr';
+import SongCard from '../components/SongCard'; // Importa el componente SongCard desde la ruta correcta
 
 const RandomSongs = () => {
   const fetcher = async (url) => {
@@ -27,12 +28,7 @@ const RandomSongs = () => {
       <h1 className="text-2xl font-bold mb-4">Random Songs</h1>
       <div className="grid grid-cols-1 gap-4 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4">
         {songs.map((song, index) => (
-          <div key={index} className="bg-gray-100 p-4 rounded-md">
-            <img src={song.album.images[0].url} alt={song.name} className="w-full h-auto mb-2" />
-            <p className="text-lg font-bold">{song.name}</p>
-            <p className="text-sm text-gray-500">{song.artists.map(artist => artist.name).join(', ')}</p>
-            <a href={song.external_urls.spotify} target="_blank" rel="noopener noreferrer" className="text-blue-500 hover:underline">Listen on Spotify</a>
-          </div>
+          <SongCard key={index} song={song} />
         ))}
       </div>
     </div>

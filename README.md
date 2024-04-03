@@ -31,7 +31,7 @@
 
 <!-- PROJECT DESCRIPTION -->
 
-# 📖 Budget app <a name="about-project"></a>
+# 📖 Sound Voyage <a name="about-project"></a>
 
 **Sound Voyage** is an application designed to help users discover new music, explore top tracks by country, and receive random song recommendations.
 
